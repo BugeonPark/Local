@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="com.sds.weatherapp.model.member.MemberUpdateDAO">
+
+	
+	<insert id="insertIfNull" parameterType="MemberUpdate">
+		insert into member_detail(member_idx, roadAddress, sido, sidoEnglish, food_favorite_idx, food_hate_idx)
+		values(#{member_idx} , #{roadAddress}, #{sido}, #{sidoEnglish}, #{favoriteFood.food_idx}, #{hateFood.food_idx})
+	</insert>
+	
+	<!-- <resultMap type="MemberDetail" id="MemberDetailMap">
+		<id column="member_detail_idx" property="member_detail_idx"/>
+		
+		<association column="food_favorite_idx" property="favoriteFood"
+			javaType="Food" select="com.sds.weatherapp.model.food.FoodDAO.selectByFoodIdx"/>
+		<association column="food_hate_idx" property="hateFood"
+			javaType="Food" select="com.sds.weatherapp.model.food.FoodDAO.selectByFoodIdx"/>
+	</resultMap>
+	
+	<select id="selectByMemberIdx" parameterType="int" resultMap="MemberDetailMap">
+		select member_detail_idx, password, roadAddress, sido, sidoEnglish, food_favorite_idx,  food_hate_idx from member_detail where member_idx = #{member_idx}
+	</select>
+	
+	<update id="">
+	</update> -->
+	
+	<update id="updateSns" parameterType="MemberUpdate">
+		update member_detail 
+		set food_favorite_idx=#{favoriteFood.food_idx}, food_hate_idx=#{hateFood.food_idx}, roadAddress=#{roadAddress}, sido=#{sido}, sidoEnglish=#{sidoEnglish}
+		where member_idx=#{member_idx}
+	</update>
+	
+	<update id="updateHomepage" parameterType="MemberUpdate">
+		update member_detail
+		set food_favorite_idx=#{favoriteFood.food_idx}, food_hate_idx=#{hateFood.food_idx}, roadAddress=#{roadAddress}, sido=#{sido}, sidoEnglish=#{sidoEnglish}, nickname=#{nickname}
+		where member_idx=#{member_idx}
+	</update>
+</mapper>

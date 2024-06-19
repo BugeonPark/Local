@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<title>LR - Login</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="" name="keywords">
+<meta content="" name="description">
+
+
+
+<th:block
+	th:replace="~{fragments/admin_header_link :: admin_header_link}" />
+</head>
+
+<body>
+	<div class="container-xxl bg-white p-0">
+		<!-- Spinner Start -->
+		<div id="spinner"
+			class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+			<div class="spinner-border text-primary"
+				style="width: 3rem; height: 3rem;" role="status">
+				<span class="sr-only">Loading...</span>
+			</div>
+		</div>
+		<!-- Spinner End -->
+
+
+		<!-- Navbar Start -->
+		<th:block th:replace="~{fragments/navigator :: navigator}" />
+		<!-- Navbar End -->
+
+
+		<!-- Header Start -->
+		<div class="container-fluid header bg-white p-0">
+			<div
+				class="row g-0 align-items-center flex-column-reverse flex-md-row">
+				<div class="col-md-6 p-5 mt-lg-5">
+					<h1 class="display-5 animated fadeIn mb-4">어서오세요</h1>
+					<nav aria-label="breadcrumb animated fadeIn">
+						<ol class="breadcrumb text-uppercase">
+							<li class="breadcrumb-item"><a href="#">Home</a></li>
+							<li class="breadcrumb-item"><a href="#">Pages</a></li>
+							<li class="breadcrumb-item text-body active" aria-current="page">Contact</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="col-md-6 animated fadeIn">
+					<img class="img-fluid" src="/site/img/header.jpg" alt="">
+				</div>
+			</div>
+		</div>
+		<!-- Header End -->
+
+
+
+
+		<!-- Login Start -->
+		<div class="card card-danger mt-5 ml-5 mr-5">
+			<div class="card-header">
+				<h3 class="card-title">회원 가입</h3>
+			</div>
+			<!-- /.card-header -->
+			<!-- form start -->
+
+			<form id="form1">
+				<div class="card-body">
+					<input type="hidden" name="sns.sns_name" value="homepage">
+					<div class="form-group row">
+						<label for="inputEmail3" class="col-sm-2 col-form-label">ID</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" placeholder="아이디 입력"
+								name="uid">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="inputPassword3" class="col-sm-2 col-form-label">비밀번호</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control" placeholder="비밀번호 입력"
+								name="memberDetail.password">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="inputEmail3" class="col-sm-2 col-form-label">이름</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control" placeholder="닉네임 입력"
+								name="nickname">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label for="inputEmail3" class="col-sm-2 col-form-label">주소</label>
+						<div class="col-sm-10">
+							<input name="zonecode" type="text" id="sample4_postcode" placeholder="우편번호">
+							<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기"><br> 
+							<input name="memberDetail.roadAddress" type="text" id="sample4_roadAddress" placeholder="도로명주소"> 
+							<input type="text" name="jibunAddress" id="sample4_jibunAddress" placeholder="지번주소">
+							<span id="guide" style="color: #999; display: none"></span> 
+							<input type="hidden" name="address" id="address">
+							<input type="hidden" name="bname" id="bname">
+							<input type="hidden" name="bnameEnglish" id="bnameEnglish">
+							<input type="hidden" name="memberDetail.sido" id="sido">
+							<input type="hidden" name="memberDetail.sidoEnglish" id="sidoEnglish">
+							<input type="hidden" name="sigungu" id="sigungu">
+							<input type="hidden" name="sigunguEnglish" id="sigunguEnglish">
+							<input type="hidden" name="roadAddressEnglish" id="roadAddressEnglish">
+							<input type="hidden" name="memberDetail.dong" id="dong">
+						</div>
+					</div>
+
+					<div class="form-group mt-4" data-select2-id="29">
+						<label for="inputEmail3" class="col-sm-2 col-form-label">최애음식</label>
+						<select name="memberDetail.favoriteFood.food_idx" id="favorite_food"
+							class="form-control select2 select2-hidden-accessible"
+							style="width: 100%;" data-select2-id="1" tabindex="-1"
+							aria-hidden="true" onChange="javascript:selectBox(this)">
+							<option>최애 음식 선택 ▼</option>
+							<option id="favorite_select" th:each="food : ${foodList}" th:value="${food.food_idx}" th:text="${food.food_name}">음식 카테고리 선택 ▼</option>
+						</select>
+						 
+						<label for="inputEmail3" class="col-sm-2 col-form-label">최악음식</label>
+						<select name="memberDetail.hateFood.food_idx"
+							class="form-control select2 select2-hidden-accessible"
+							style="width: 100%;" data-select2-id="1" tabindex="-1"
+							aria-hidden="true" id="hate_food" disabled>
+							<option>최악 음식 선택 ▼</option>
+								<option id="hate_select" th:each="food : ${foodList}" th:value="${food.food_idx}" th:text="${food.food_name}">음식 카테고리 선택 ▼</option>
+						</select>
+
+					</div>
+
+
+				</div>
+				<!-- /.card-body -->
+				<div class="card-footer">
+					<button type="button" class="btn btn-info" id="bt_regist">회원가입</button>
+					<button type="button" onclick="login()"
+						class="btn btn-primary float-right" id="bt_login_page">로그인
+						페이지 이동</button>
+
+				</div>
+				<!-- /.card-footer -->
+			</form>
+
+		</div>
+		<!-- Login End -->
+
+
+		<!-- Footer Start -->
+		<th:block th:replace="~{fragments/footer :: footer}" />
+		<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+		<!-- Footer End -->
+
+
+		<!-- Back to Top -->
+		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
+			class="bi bi-arrow-up"></i></a>
+	</div>
+
+	<th:block th:replace="~{fragments/footer_link :: footer_link}" />
+</body>
+
+</html>
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript">
+	function selectBox(obj){
+		if($("#hate_food").is(":disabled")){
+			$("#hate_food").attr("disabled",false); 
+		}
+		if($("#favorite_food option:selected").index() == $("#hate_food").index()){
+			$("#hate_select").attr("disabled", true);
+		}
+	}
+	
+
+	function regist() {
+		$("#form1").attr({
+			action : "/member/regist",
+			method : "post"
+		});
+		$("#form1").submit();
+	}
+	$(function() {
+		$("#bt_regist").click(function() {
+			regist();
+		});
+	});
+
+	function sample4_execDaumPostcode() {
+		new daum.Postcode(
+				{
+					oncomplete : function(data) {
+						// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+						// 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+						// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+						var roadAddr = data.roadAddress; // 도로명 주소 변수
+						var extraRoadAddr = ''; // 참고 항목 변수
+
+						// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+						// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+						if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+							extraRoadAddr += data.bname;
+						}
+						// 건물명이 있고, 공동주택일 경우 추가한다.
+						if (data.buildingName !== '' && data.apartment === 'Y') {
+							extraRoadAddr += (extraRoadAddr !== '' ? ', '
+									+ data.buildingName : data.buildingName);
+						}
+						// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+						if (extraRoadAddr !== '') {
+							extraRoadAddr = ' (' + extraRoadAddr + ')';
+						}
+
+						// 우편번호와 주소 정보를 해당 필드에 넣는다.
+						document.getElementById('sample4_postcode').value = data.zonecode;
+						document.getElementById("sample4_roadAddress").value = roadAddr;
+						document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+						document.getElementById("bname").value = data.bname;
+						document.getElementById("bnameEnglish").value = data.bnameEnglish;
+						document.getElementById("sigungu").value = data.sigungu;
+						document.getElementById("sigunguEnglish").value = data.sigunguEnglish;
+						document.getElementById("sido").value = data.sido;
+						document.getElementById("sidoEnglish").value = data.sidoEnglish;
+						document.getElementById("address").value = data.address;
+						document.getElementById("roadAddressEnglish").value = data.roadAddressEnglish;
+						document.getElementById("dong").value = data.bname;
+						// 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+						if (roadAddr !== '') {
+							document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+						} else {
+							document.getElementById("sample4_extraAddress").value = '';
+						}
+
+						var guideTextBox = document.getElementById("guide");
+						// 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+						if (data.autoRoadAddress) {
+							var expRoadAddr = data.autoRoadAddress
+									+ extraRoadAddr;
+							guideTextBox.innerHTML = '(예상 도로명 주소 : '
+									+ expRoadAddr + ')';
+							guideTextBox.style.display = 'block';
+
+						} else if (data.autoJibunAddress) {
+							var expJibunAddr = data.autoJibunAddress;
+							guideTextBox.innerHTML = '(예상 지번 주소 : '
+									+ expJibunAddr + ')';
+							guideTextBox.style.display = 'block';
+						} else {
+							guideTextBox.innerHTML = '';
+							guideTextBox.style.display = 'none';
+						}
+					}
+				}).open();
+	}
+</script>

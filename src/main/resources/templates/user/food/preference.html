@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<title>Makaan - Real Estate HTML Template</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="" name="keywords">
+<meta content="" name="description">
+
+<th:block th:replace="~{fragments/header_link :: header_link}" />
+</head>
+
+<body>
+	<div class="container-xxl bg-white p-0">
+		<!-- Spinner Start -->
+		<div id="spinner"
+			class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+			<div class="spinner-border text-primary"
+				style="width: 3rem; height: 3rem;" role="status">
+				<span class="sr-only">Loading...</span>
+			</div>
+		</div>
+		<!-- Spinner End -->
+
+		<!-- navigator start -->
+		<th:block th:replace="~{fragments/navigator :: navigator}" />
+		<!-- navigator end -->
+
+
+
+		<div class="container mt-3 mb-4">
+			<div class="row justify-content-center">
+				<div class="col-md-12 card card-info">
+					<div class="card-header">
+						<h3 class="card-title">음식종류 선호도 조사</h3>
+					</div>
+					<form id="form1">
+						<div class="card-body">
+							<div class="form-group row">
+								
+								<th:block th:each="category : ${categoryList}">
+									<input type="hidden" th:name="food_category_idx" th:value="${category.food_category_idx}">
+									<input type="hidden" th:name="member_idx" th:value="${session.member.member_idx}">
+									<label class="col-sm-3 col-form-label" th:text="${category.food_category_name}"></label>
+									<div class="col-sm-9">
+										<textarea placeholder="Your Comment" th:name="content" class="col-sm-9"></textarea>
+									</div>
+								</th:block>
+							</div>
+						</div>
+						
+						<div class="card-footer">
+							<button type="button" class="float-right" id="bt_regist">
+								<i class="fa fa-location-arrow"></i> Review
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Back to Top -->
+		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
+			class="bi bi-arrow-up"></i></a>
+	</div>
+
+
+	<th:block th:replace="~{fragments/footer_link :: footer_link}" />
+</body>
+
+</html>
+
+
+
+<script type="text/javascript">
+	
+	function regist(){
+		let list = $("#form1").serializeArray();
+		let preferComments = new Array();
+		for(let i=0; i<list.length; i+=3){
+			let obj={};
+			for(j=i; j<i+3; j++){
+				obj[list[j]['name']] = list[j]['value'];
+			}
+			preferComments.push(obj);
+		}
+		$.ajax({
+			url:"/food/prefer",
+			type:"post",
+			dataType: "json",
+			processData:true,
+			contentType:"application/json; charset=UTF-8",
+			data: JSON.stringify(preferComments),
+			
+			success:function(result, status ,xhr){
+				alert("등록 성공");
+			},
+			error:function(xhr, status, err){
+				console.log(err);
+				alert("등록 실패");
+			}
+		});
+	}
+	
+	$(function(){
+		
+		$("#bt_regist").click(function(){
+			regist();
+		});
+	});
+</script>

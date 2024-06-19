@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zxx" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="utf-8">
+<title>Makaan - Real Estate HTML Template</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="" name="keywords">
+<meta content="" name="description">
+
+<th:block th:replace="~{fragments/header_link :: header_link}" />
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=427d0f844a8f37000709d457d3f98426&libraries=services"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+</head>
+
+<body>
+	<div class="container-xxl bg-white p-0">
+		<!-- Spinner Start -->
+		<div id="spinner"
+			class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+			<div class="spinner-border text-primary"
+				style="width: 3rem; height: 3rem;" role="status">
+				<span class="sr-only">Loading...</span>
+			</div>
+		</div>
+		<!-- Spinner End -->
+
+		<!-- navigator start -->
+		<th:block th:replace="~{fragments/navigator :: navigator}" />
+		<!-- navigator end -->
+
+		<!-- header start -->
+		<th:block th:replace="~{fragments/header :: header}" />
+		<!-- header end -->
+
+		<!-- weatherInfo -->
+		<div id="aWeather"></div>
+		<!-- weatherInfo -->
+
+		<!-- Search Start -->
+		<div class="container-fluid bg-primary mt-3 mb-5 wow fadeIn"
+			data-wow-delay="0.1s" style="padding: 35px;">
+			<div class="container">
+				<div class="row g-2">
+					<div class="col-md-10">
+						<div class="row g-2">
+							<div class="col-md-4">
+								<input id="local" name="local" type="text"
+									class="form-control border-0 py-3" placeholder="Search Keyword">
+							</div>
+							<div class="col-md-4">
+								<select class="form-select border-0 py-3">
+									<option selected>Property Type</option>
+									<option value="1">Property Type 1</option>
+									<option value="2">Property Type 2</option>
+									<option value="3">Property Type 3</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<select class="form-select border-0 py-3">
+									<option selected>Location</option>
+									<option value="1">Location 1</option>
+									<option value="2">Location 2</option>
+									<option value="3">Location 3</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-dark border-0 w-100 py-3">Search</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Search End -->
+
+
+		<!-- Category Start -->
+		<div class="container-xxl py-5">
+			<div class="container">
+				<div class="text-center mx-auto mb-5 wow fadeInUp"
+					data-wow-delay="0.1s" style="max-width: 600px;">
+					<h1 class="mb-3">Property Types</h1>
+					<p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor
+						ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo
+						sed rebum vero dolor duo.</p>
+				</div>
+				<div class="row g-4">
+					<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+						<a class="cat-item d-block bg-light text-center rounded p-3"> <!--onclick="getLaterAPI(0, 0,'한식')"-->
+							<div class="rounded p-4">
+								<div class="icon mb-3">
+									<img class="img-fluid" src="/site/img/icon-apartment.png"
+										alt="Icon">
+								</div>
+								<h6>Apartment</h6>
+								<span>123 Properties</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+						<a class="cat-item d-block bg-light text-center rounded p-3"
+							href="">
+							<div class="rounded p-4">
+								<div class="icon mb-3">
+									<img class="img-fluid" src="/site/img/icon-villa.png"
+										alt="Icon">
+								</div>
+								<h6>Villa</h6>
+								<span>123 Properties</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+						<a class="cat-item d-block bg-light text-center rounded p-3"
+							href="">
+							<div class="rounded p-4">
+								<div class="icon mb-3">
+									<img class="img-fluid" src="/site/img/icon-house.png"
+										alt="Icon">
+								</div>
+								<h6>Home</h6>
+								<span>123 Properties</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+						<a class="cat-item d-block bg-light text-center rounded p-3"
+							href="">
+							<div class="rounded p-4">
+								<div class="icon mb-3">
+									<img class="img-fluid" src="/site/img/icon-housing.png"
+										alt="Icon">
+								</div>
+								<h6>Office</h6>
+								<span>123 Properties</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+						<a class="cat-item d-block bg-light text-center rounded p-3"
+							href="">
+							<div class="rounded p-4">
+								<div class="icon mb-3">
+									<img class="img-fluid" src="/site/img/icon-building.png"
+										alt="Icon">
+								</div>
+								<h6>Building</h6>
+								<span>123 Properties</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+						<a class="cat-item d-block bg-light text-center rounded p-3"
+							href="">
+							<div class="rounded p-4">
+								<div class="icon mb-3">
+									<img class="img-fluid" src="/site/img/icon-neighborhood.png"
+										alt="Icon">
+								</div>
+								<h6>Townhouse</h6>
+								<span>123 Properties</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+						<a class="cat-item d-block bg-light text-center rounded p-3"
+							href="">
+							<div class="rounded p-4">
+								<div class="icon mb-3">
+									<img class="img-fluid" src="/site/img/icon-condominium.png"
+										alt="Icon">
+								</div>
+								<h6>Shop</h6>
+								<span>123 Properties</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+						<a class="cat-item d-block bg-light text-center rounded p-3"
+							href="">
+							<div class="rounded p-4">
+								<div class="icon mb-3">
+									<img class="img-fluid" src="/site/img/icon-luxury.png"
+										alt="Icon">
+								</div>
+								<h6>Garage</h6>
+								<span>123 Properties</span>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Category End -->
+
+
+		<!-- About Start -->
+		<div class="container-xxl py-5">
+			<div class="container" id="firstStore" style="display: none">
+				<div class="row ms-0">
+				<div class="col-lg-5">
+					<div class="wow fadeIn" data-wow-delay="0.1s">
+
+						<!--<div class="about-img position-relative overflow-hidden p-5 pe-0">-->
+						<div style="position:relative">
+							<img id="firstImage" class="img-fluid w-100 position-relative" src="">
+							<div class="bg-primary rounded text-white h4 position-absolute start-0 top-0 ms-3 py-1 px-2" style="display:inline">1</div>
+						</div>
+						<!--</div>-->
+
+					</div>
+
+					<div class="wow fadeIn" data-wow-delay="0.5s">
+						<i class="fa-solid fa-crown text-primary fa-2x mb-2 mt-3 me-2 ms-1"></i>
+						<a id="firstUrl" href=""><h2 id="firstTitle" class="mb-3 mt-3 text-primary" style="word-break: keep-all; display: inline"></h2></a>
+						<h5 id="firstAddress" class="mb-4 mt-2">
+							<!--
+							Tempor erat elitr rebum at clita. Diam dolor
+							diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et
+							lorem et sit, sed stet lorem sit clita duo justo magna dolore
+							erat amet
+							-->
+						</h5>
+						<!--
+						<p>
+							<i class="fa fa-check text-primary me-3"></i>
+							Tempor erat elitr rebum at clita
+						</p>
+						<p>
+							<i class="fa fa-check text-primary me-3"></i>
+							Aliqu diam amet diam et eos
+						</p>
+						<p>
+							<i class="fa fa-check text-primary me-3"></i>
+							Clita duo justo magna dolore erat amet
+						</p>
+						<a class="btn btn-primary py-3 px-5 mt-3" href="">Read More</a>
+						-->
+					</div>
+				</div>
+
+				<div class="col-lg-7">
+					<!-- Property List Start -->
+					<div class="container-xxl py-0">
+							<div class="row align-items-end"> <!--id="show" style="display: none"-->
+
+									<div class="text-start mx-auto mb-3 wow slideInLeft"
+										 data-wow-delay="0.1s">
+										<h1 class="mb-3">오늘의 추천 맛집</h1>
+										<p class="ps-1">추천 음식에 따라 다양한 맛집을 즐겨보세요!</p>
+									</div>
+
+
+								<!-- property list 버튼 있던 곳 -->
+
+							</div>
+							<div class="tab-content">
+								<div class="tab-pane fade show p-0 active" id="proplist">
+
+										<!-- property list 있던 곳 -->
+
+								</div>
+							</div>
+					</div>
+					<!-- Property List End -->
+				</div>
+				</div>
+			</div>
+		</div>
+		<!-- About End -->
+
+
+		<!-- Testimonial Start -->
+		<div class="container-xxl py-5">
+			<div class="container">
+				<div class="text-center mx-auto mb-5 wow fadeInUp"
+					data-wow-delay="0.1s" style="max-width: 600px;">
+					<h1 class="mb-3">Our Clients Say!</h1>
+					<p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor
+						ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo
+						sed rebum vero dolor duo.</p>
+				</div>
+				<div class="owl-carousel testimonial-carousel wow fadeInUp"
+					data-wow-delay="0.1s">
+					<div class="testimonial-item bg-light rounded p-3">
+						<div class="bg-white border rounded p-4">
+							<p>Tempor stet labore dolor clita stet diam amet ipsum dolor
+								duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem
+								amet est kasd kasd erat eos</p>
+							<div class="d-flex align-items-center">
+								<img class="img-fluid flex-shrink-0 rounded"
+									src="/site/img/testimonial-1.jpg"
+									style="width: 45px; height: 45px;">
+								<div class="ps-3">
+									<h6 class="fw-bold mb-1">Client Name</h6>
+									<small>Profession</small>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="testimonial-item bg-light rounded p-3">
+						<div class="bg-white border rounded p-4">
+							<p>Tempor stet labore dolor clita stet diam amet ipsum dolor
+								duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem
+								amet est kasd kasd erat eos</p>
+							<div class="d-flex align-items-center">
+								<img class="img-fluid flex-shrink-0 rounded"
+									src="/site/img/testimonial-2.jpg"
+									style="width: 45px; height: 45px;">
+								<div class="ps-3">
+									<h6 class="fw-bold mb-1">Client Name</h6>
+									<small>Profession</small>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="testimonial-item bg-light rounded p-3">
+						<div class="bg-white border rounded p-4">
+							<p>Tempor stet labore dolor clita stet diam amet ipsum dolor
+								duo ipsum rebum stet dolor amet diam stet. Est stet ea lorem
+								amet est kasd kasd erat eos</p>
+							<div class="d-flex align-items-center">
+								<img class="img-fluid flex-shrink-0 rounded"
+									src="/site/img/testimonial-3.jpg"
+									style="width: 45px; height: 45px;">
+								<div class="ps-3">
+									<h6 class="fw-bold mb-1">Client Name</h6>
+									<small>Profession</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Testimonial End -->
+
+
+		<th:block th:replace="~{fragments/footer :: footer}" />
+
+		<!-- Back to Top -->
+		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top">
+			<i class="bi bi-arrow-up"></i></a>
+	</div>
+
+
+	<th:block th:replace="~{fragments/footer_link :: footer_link}" />
+	<th:block th:if="${weatherInfo != null}">
+		<input type="hidden" th:value="${weatherInfo.temp}">
+	</th:block>
+
+
+</body>
+
+</html>
+
+
+
+<!-- 카카오 맵 services 라이브러리 불러오기 => 화면에 지도를 띄움 -->
+
+<script th:inline="javascript">
+	// 마커를 클릭하면 장소명을 표출할 InfoWindow
+	var infowindow = new kakao.maps.InfoWindow({
+		zIndex : 1
+	});
+
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+	mapOption = {
+		center : new kakao.maps.LatLng(37.450701, 126.570667), // 지도의 중심 좌표(y,x)
+		level : 13 // 지도의 확대 레벨
+	};
+
+	// 지도를 생성
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+
+	// 장소 검색 객체를 생성
+	var ps = new kakao.maps.services.Places();
+
+
+	// 마커 이미지의 경로, 크기, 옵션으로 마커 이미지를 생성하여 반환하는 함수
+	function createMarkerImage(food_category_name) {
+		var imageSrc;
+		// foodList[0].foodCategory.food_category_name
+
+		switch(food_category_name) { // 음식 카테고리에 따라 마커 이미지를 다르게 생성
+			case '치킨':
+				imageSrc = 'https://cdn-icons-png.flaticon.com/512/837/837619.png'; // 마커 이미지의 경로
+				break;
+			case '디저트':
+				imageSrc = 'https://cdn-icons-png.flaticon.com/512/2488/2488456.png';
+				break;
+			case '한식':
+				imageSrc = 'https://cdn-icons-png.flaticon.com/512/2276/2276866.png';
+				break;
+			case '분식':
+				imageSrc = 'https://cdn-icons-png.flaticon.com/512/2276/2276869.png';
+				break;
+			case '튀김':
+				imageSrc = 'https://cdn-icons-png.flaticon.com/512/3724/3724615.png';
+				break;
+			case '일식':
+				imageSrc = 'https://cdn-icons-png.flaticon.com/512/3183/3183499.png';
+				break;
+			case '중식':
+				imageSrc = 'https://cdn-icons-png.flaticon.com/512/3448/3448023.png';
+				break;
+			case '양식':
+				imageSrc = 'https://cdn-icons-png.flaticon.com/512/2515/2515207.png';
+				break;
+			default:
+				console.log( "어떤 음식인지 파악되지 않습니다.");
+		}
+
+		var imageSize = new kakao.maps.Size(32, 35); // 마커 이미지의 크기
+		var imageOption = {
+			offset : new kakao.maps.Point(27, 69)
+		}; // 마커 이미지의 옵션(마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정)
+
+		var image = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption); // 마커 이미지 생성
+
+		return image;
+	}
+
+
+	var markers = []; // 마커들을 담을 배열
+
+	// 지도에 마커를 표시하는 함수
+	function displayMarker(place, food_category_name) {
+		//var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'; // 마커 이미지의 경로
+		//var imageSize = new kakao.maps.Size(64, 69); // 마커 이미지의 크기
+		//var imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커 이미지의 옵션(마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정)
+		// var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption); // 마커의 이미지 정보를 가지고 있는 마커 이미지를 생성
+
+		var markerImage = createMarkerImage(food_category_name); // 마커의 이미지 정보를 가지고 있는 마커 이미지를 생성
+
+		// 마커를 생성하고 지도에 표시
+		var marker = new kakao.maps.Marker({
+			map : map,
+			position : new kakao.maps.LatLng(place.y, place.x),
+			image : markerImage,
+			title : place.road_address_name
+		});
+
+
+		markers.push(marker); // 생성된 마커들을 배열 markers에 저장
+
+		// 마커에 클릭 이벤트를 등록
+		kakao.maps.event.addListener(marker, 'click', function() {
+			// 마커를 클릭하면 장소 이름이 InfoWindow에 표출
+			infowindow.setContent('<div style="padding:5px;font-size:12px;">'
+					+ place.place_name + '</div>');
+			infowindow.open(map, marker);
+		});
+	}
+
+
+	// 기존(= 이전 키워드)의 마커들을 지우는 함수
+	function clearMarkers() {
+		for (let i = 0; i < markers.length; i++) {
+			markers[i].setMap(null); // 이전에 생성한 마커를 지도에서 제거
+		}
+		markers.length = 0; // 마커들을 담은 markers 배열 초기화
+	}
+</script>
+
+
+<script type="text/javascript">
+
+	// 날씨 정보 및 사용자 맞춤 추천 음식을 띄우는 함수
+	function getWeather(result) {
+		let tag = "<div class=\"container-xxl mt-3\">";
+		tag += "<div class=\"container\">";
+
+		tag += "<div class=\"text-center mx-auto mb-5 wow fadeInUp\" data-wow-delat=\"0.1s\" style=\"max-width: 600px;\" >";
+
+		tag += "<h1 class=\"mb-3 text-primary\">오늘의 날씨</h1>";
+
+		tag += "<p> 날씨는 " + result.des_name + "이고 </p>";
+		tag += "<p> 습도는 " + result.hum_name + "이며 </p>";
+		tag += "<p> 기온은 " + result.temp + "도 입니다 </p>";
+		tag += "<p class =\"text-primary\"> 어울리는 음식 : <br>";
+		for (let i = 0; i < result.foodList.length; i++) {
+			tag += result.foodList[i].food_name + "  <br> ";
+		}
+		tag += "</p>";
+
+		tag += "</div>";
+		tag += "</div>";
+		tag += "</div>";
+		$("#aWeather").html(tag);
+	}
+
+
+	// let favor = []; // 모든 추천 맛집 목록을 담을 배열
+	// let restaurant; // 서버에서 보낸 맛집 api 데이터를 담는 변수
+	let resultData; // weatherinfo를 저장할 변수 (= 날씨 정보, 추천 음식 키워드,
+					// 사용자 도로명 주소의 x,y 값, 첫번째 추천 키워드 관련 맛집 데이터 저장)
+	let urls; // 첫번째 추천 맛집 이미지 주소 객체(= Urls)
+
+
+	// property list에 추천 맛집 목록을 반영하는 함수
+	function recommend(store) {
+		let tag = "<div class=\"row g-4\">";
+
+		// let div = document.getElementById('show'); // property list 영역 보여주기
+		let div = document.getElementById('firstStore'); // 첫번째 추천 맛집 및 propertylist 영역 보여주기
+		div.style.display = '';
+
+		console.log("store: ", store); // store = 키워드로 장소 검색하기 api의 특정 키워드 한 개에 대한 검색 결과값(ex 홍대 치킨 맛집 15개)
+
+		// 추천 음식의 가장 가까운 맛집(= 첫번째 맛집)을 보여주기
+		$("#firstTitle").text(store[0].place_name); // 맛집 이름
+		$("#firstUrl").attr("href", store[0].place_url); // 맛집 사이트 url
+		$("#firstAddress").text(store[0].address_name); // 맛집 주소
+		$("#firstImage").attr("src", urls.raw); // 관련 음식 이미지
+
+		for (let i = 1; i < store.length; i++) { // 맛집 개수만큼 property list 생성
+			let property = store[i];
+			let number = i + 1;
+
+			if(i == 7) { tag += "</div><div class=\"row g-4 mt-1\" id='hide' style='display: none'>"; } // 7번째 맛집부터는 display 값이 none인 div로 감싸서 보이지 않도록 하기
+
+			tag += "<div class=\"col-lg-6 col-md-6 wow fadeInUp\" data-wow-delay=\"0.05s\">"
+					+ "<div class=\"property-item rounded overflow-hidden\">"
+					+ "<div class=\"bg-primary rounded text-white position-relative start-0 top-0 m-3 py-1 px-2\" style=\"display:inline\">" + number +"</div>" // 거리 순서
+					+ "<div class=\"p-3 pb-0\"><h6 class=\"text-primary mb-3\">" + property.category_name + "</h6>" // 맛집 카테고리
+					+ "<a class=\"d-block h5 mb-2\" href=\""+ property.place_url + "\" id=\"title\">" + property.place_name + "</a>" // 맛집 사이트 url, 맛집 이름(이름 클릭 시 이동)
+					+ "<p id=\"address\">" + property.address_name + "</p></div>" // 맛집 주소
+					+ "<div class=\"d-flex border-top\"><small class=\"flex-fill text-center border-end py-2\" id=\"phone\">"
+					+ "<i class=\"fa fa-phone text-primary me-2\" aria-hidden=\"true\"></i>" + property.phone + "</small></div></div></div>"; // 맛집 전화번호
+		}
+
+		tag += "</div><div class=\"col-12 text-center wow fadeInUp\"><a class=\"btn btn-primary py-3 px-5 mt-5\""
+			+ " id='browse' onclick='toggleBt()'>더보기</a></div>"; // 더보기 버튼 생성(-> onclick 이벤트로 toggleBt() 호출)
+
+		$("#proplist").html(tag);
+	}
+
+
+	// 7번째 이상의 propery list 맛집 데이터는 더보기 버튼을 누르면 보임
+	function toggleBt() {
+		let div = document.getElementById('hide'); // 맛집 데이터들이 숨겨져 있는 div
+
+		if(div.style.display !== 'none') { // 숨길 때는 display: none
+			div.style.display = 'none';
+			$("#browse").text("더보기"); // div 영역을 숨길 때 -> 버튼 이름을 더보기로 변경
+			$('html, body').animate({scrollTop:2000},350); // 버튼을 누르면 화면의 특정 위치로 올라감
+		} else { // 보일 때는 display 속성값 제거(display = 'block'을 하면 div row가 적용되지 않음)
+			div.style.display = '';
+			$("#browse").text("닫기");
+		}
+	}
+
+
+	// propery list의 상단 버튼 생성 및 버튼 이름을 추천 음식으로 변경
+	function btName() {
+		let tag = "<div class=\"row-6 mt-3\">";
+
+		for(let i=0; i<resultData.foodList.length; i++){ // 추천 음식 개수(= foodList 크기)만큼 버튼 생성
+			tag += "<a class=\"btn btn-outline-primary me-2 mb-2\" data-bs-toggle=\"pill\"" +
+					"onclick=\"buttonClick(" + i + ")\" id=\"bt_" + i + "\">" + resultData.foodList[i].food_name + "</a>";
+		}
+		tag += "</div>";
+
+		$("#propbutton").html(tag);
+		// foodList 크기만큼 버튼 생성, resultData에 저장한 weatherinfo에서 foodList[number].food_name 값을 버튼 이름으로 설정
+	}
+
+
+	// propery list의 상단 버튼 3개를 클릭할 때마다 호출 -> 각 버튼에 맞는 맛집을 검색해서 보여줌
+	function buttonClick(buttonId) {
+		let index = buttonId;
+		clearMarkers(); // 이전 키워드 관련 마커 삭제 -> 버튼을 누를 때마다 지도에 해당 버튼에 맞는 맛집 마커만 표시
+		getLaterAPI(resultData.userLocation.documents[0].x,
+					resultData.userLocation.documents[0].y,
+					resultData.foodList[index].food_name, 
+					resultData.foodList[index].foodCategory.food_category_name); // index = 각 버튼에 부여된 id 값 -> index번째 추천 음식을 키워드로 맛집 검색
+	}
+
+
+	// 서버에서 보낸 맛집 api 데이터를 지도에 표시
+	function placesSearchCB(data, food_category_name) {
+		// console.log("키워드 검색 결과: ", data);
+
+		// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기 위해 LatLngBounds 객체에 좌표를 추가
+		var bounds = new kakao.maps.LatLngBounds();
+
+		for (var i = 0; i < data.length; i++) {
+			displayMarker(data[i], food_category_name); // 마커 생성하기
+			bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+		}
+
+		// 검색된 장소 위치를 기준으로 지도 범위를 재설정
+		map.setBounds(bounds);
+	}
+
+
+	// 추천 키워드 관련 맛집 위치를 지도에 마커로 표시, recommend() 호출 -> property list에 반영
+	function searchAllKeywords(result, keyword) {
+		let restaurant = result;
+		console.log("검색 중 넘겨받은 result : " + restaurant.documents[0].place_name);
+
+		btName(); // property list 버튼 생성 및 이름 지정
+
+		placesSearchCB(restaurant.documents, keyword); // 맛집 데이터를 지도에 반영
+
+		recommend(restaurant.documents); // 맛집 데이터를 property list에 반영
+	}
+
+
+	// GetStarted 버튼을 누름 -> 날씨 정보 및 첫번째 추천 키워드 관련 맛집 데이터를 가져와서 지도에 표시
+	function getStart() {
+		getAPI(0);
+	}
+
+
+	// 서버에서 weatherInfo 데이터 가져오기
+	function getAPI(i) {
+		$.ajax({
+				url : "rest/show",
+				type : "GET",
+				data : {
+					index : i
+				},
+				success : function(result, status, xhr) {
+					getWeather(result);
+					resultData = result; // result == weatherinfo(= 날씨 정보, 추천 음식 키워드, 사용자 도로명 주소의 x,y 값 및 첫번째 추천 키워드 관련 맛집 데이터)
+					console.log("사용자 위치 : " + resultData.userLocation.documents[0].x);
+					urls = result.restaurant.urls;
+					searchAllKeywords(result.restaurant, resultData.foodList[i].foodCategory.food_category_name);
+				}
+			});
+	}
+
+
+	// 추천 키워드 관련 맛집 api 데이터만 받아오기
+	function getLaterAPI(x, y, food_name, foodCategoryName) {
+		$.ajax({
+			url : "rest/search",
+			type : "GET",
+			data : {
+				x : x,
+				y : y,
+				food_name : food_name,
+				food_category_name : foodCategoryName
+			},
+			success : function(result, status, xhr) {
+				urls = result.urls;
+				searchAllKeywords(result, foodCategoryName);
+			}
+		})
+	}
+
+</script>

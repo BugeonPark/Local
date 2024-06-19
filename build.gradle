@@ -1,0 +1,70 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.sds'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	
+	//스프링시큐리티
+	implementation 'org.springframework.boot:spring-boot-starter-security:3.2.5'
+	
+	//mysql driver
+	implementation 'mysql:mysql-connector-java:8.0.28'
+	//spring jdbc
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.2.4'
+	//mybatis spring
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	//json simple(String -> json으로)
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	
+	//Gson
+	implementation 'com.google.code.gson:gson:2.8.9'
+	
+	//몽고 db 추가
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:3.2.5'
+	
+	//komoran
+	implementation files('lib/aho-corasick-1.1.0.jar', 'lib/commons-1.0.1.jar')
+	implementation files('lib/core.jar', 'lib/elasticsearch-plugin-1.0-SNAPSHOT.jar')
+	
+	//mahout 머신러닝
+	implementation 'org.apache.mahout:mahout-core:0.9'
+	
+	//io.jsonwebtoken. jwt 토큰 생성하는
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'javax.xml.ws:jaxws-api:2.3.1'
+	implementation 'com.sun.xml.ws:jaxws-rt:2.3.3'
+	implementation 'com.sun.xml.messaging.saaj:saaj-impl:1.5.3'
+	implementation 'com.sun.xml.bind:jaxb-impl:2.3.3'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+compileJava {	options.compilerArgs << '-parameters'}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="com.sds.weatherapp.model.food.FoodHumidityDAO">
+	
+	<insert id="insert" parameterType="FoodHumidity">
+		insert into food_humidity(food_idx, humidity_idx) values(#{food.food_idx}, #{humidity.humidity_idx})
+	</insert>
+	
+	<select id="selectByFoodIdx" parameterType="int" resultType="FoodHumidity">
+		select * from food_humidity where food_idx = #{food_idx}
+	</select>
+	
+</mapper>

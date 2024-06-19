@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="com.sds.weatherapp.model.food.FoodDescriptionDAO">
+	
+	<insert id="insert" parameterType="FoodDescription">
+		insert into food_description(food_idx, description_idx) values(#{food.food_idx}, #{description.description_idx})
+	</insert>
+	
+	<select id="selectByFoodIdx" parameterType="int" resultType="FoodDescription">
+		select * from food_description where food_idx=#{food_idx} 
+	</select>
+	
+</mapper>
